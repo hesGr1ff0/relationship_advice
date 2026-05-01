@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Relationship Advice Website 🤍
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, fast, and responsive website dedicated to providing practical advice and insights for dating, communication, conflict resolution, and lasting love.
 
-Currently, two official plugins are available:
+This project is built as a static site that renders Markdown (`.mdx`) files into beautiful, interactive web pages.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- **Fast & Responsive**: Built with Vite and React for lightning-fast load times.
+- **MDX Content Pipeline**: Articles are written in Markdown with frontmatter, automatically parsed and injected into the site. No database required!
+- **Instant Search**: Real-time filtering across article titles, excerpts, and tags.
+- **SEO Optimized**: Fully integrated with `react-helmet-async` for automatic metadata and OpenGraph tags to ensure links look great when shared on social media.
+- **Smooth Animations**: Powered by `framer-motion` for a premium, polished user experience.
+- **Performance Tuned**: Implements React Route Code-Splitting (`React.lazy()`) for minimal initial load times.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: React 19 + TypeScript
+- **Bundler**: Vite
+- **Styling**: Tailwind CSS v4
+- **Routing**: React Router v7
+- **Content Parsing**: `@mdx-js/rollup`, `remark-frontmatter`, `remark-mdx-frontmatter`
+- **Animations**: Framer Motion
+- **SEO**: React Helmet Async
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📝 How to Write a New Article
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Adding content is incredibly easy. You don't need to touch any code!
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Go to the `src/content/articles/` folder.
+2. Create a new file ending in `.mdx` (e.g., `my-new-article.mdx`).
+3. Add the "frontmatter" at the very top of the file to configure the metadata:
+   ```markdown
+   ---
+   title: "Your Article Title"
+   excerpt: "A short 1-2 sentence summary."
+   date: 2026-05-01
+   category: "Communication"
+   tags: ["listening", "tips"]
+   readTime: 4
+   featured: false
+   ---
+   ```
+4. Write your article below the dashes using standard Markdown! The site will automatically detect the file, add it to the Article index, and make it searchable.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Running the Site Locally
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+If you want to run this project on your own machine:
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
+
+## 🌐 Deployment
+
+This project is configured to be easily deployed to **Vercel** or **Netlify**. Simply connect your GitHub repository to your preferred hosting provider, and it will automatically build and publish your site whenever you push to the `main` branch.
