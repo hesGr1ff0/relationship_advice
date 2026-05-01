@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -7,7 +8,9 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
-        <Outlet />
+        <Suspense fallback={<div className="p-12 text-center text-gray-500">Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </main>
       <Footer />
     </div>

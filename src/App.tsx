@@ -1,10 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { lazy } from 'react';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import Articles from './pages/Articles';
-import Article from './pages/Article';
-import About from './pages/About';
-import Contact from './pages/Contact';
+
+const Home = lazy(() => import('./pages/Home'));
+const Articles = lazy(() => import('./pages/Articles'));
+const Article = lazy(() => import('./pages/Article'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
 
 const router = createBrowserRouter([
   {
@@ -22,7 +25,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <HelmetProvider>
+      <RouterProvider router={router} />
+    </HelmetProvider>
+  );
 }
 
 export default App;
