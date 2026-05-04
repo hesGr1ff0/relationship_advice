@@ -8,76 +8,77 @@ import SEO from '../components/SEO';
 export default function Articles() {
   const { category } = useParams<{ category: string }>();
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   const baseArticles = useMemo(() => {
     if (category) {
-      const all = getAllArticles();
-      return all.filter(a => a.category.toLowerCase().replace(/\s+/g, '-') === category);
+      return getAllArticles().filter(
+        a => a.category.toLowerCase().replace(/\s+/g, '-') === category
+      );
     }
     return getAllArticles();
   }, [category]);
 
   const filteredArticles = useMemo(() => {
     if (!searchTerm) return baseArticles;
-    const lowerTerm = searchTerm.toLowerCase();
-    return baseArticles.filter(article => 
-      article.title.toLowerCase().includes(lowerTerm) || 
-      article.excerpt.toLowerCase().includes(lowerTerm) ||
-      (article.tags && article.tags.some(tag => tag.toLowerCase().includes(lowerTerm))) ||
-      article.category.toLowerCase().includes(lowerTerm)
+    const lower = searchTerm.toLowerCase();
+    return baseArticles.filter(
+      a =>
+        a.title.toLowerCase().includes(lower) ||
+        a.excerpt.toLowerCase().includes(lower) ||
+        (a.tags && a.tags.some(t => t.toLowerCase().includes(lower))) ||
+        a.category.toLowerCase().includes(lower)
     );
   }, [baseArticles, searchTerm]);
 
-  const pageTitle = category 
-    ? `${category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} Articles`
+  const pageTitle = category
+    ? category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
     : 'All Articles';
 
   return (
     <>
-      <SEO 
-        title={pageTitle} 
-        description={`Browse our relationship advice articles for ${pageTitle.toLowerCase()}.`}
+      <SEO
+        title={pageTitle}
+        description={`Browse our relationship advice articles on ${pageTitle.toLowerCase()}.`}
       />
-      <motion.div 
-        className="max-w-5xl mx-auto px-4 py-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white capitalize">
-            {pageTitle}
-          </h1>
-          <div className="w-full md:w-72">
-            <input
-              type="text"
-              placeholder="Search articles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-shadow"
-            />
-          </div>
+
+      <section className="bg-linear-to-br from-stone-900 to-stone-800 text-white py-16 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-6xl mx-auto"
+        >
+          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">{pageTitle}</h1>
+          <input
+            type="text"
+            placeholder="Search articles..."
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            className="w-full max-w-sm px-5 py-3 rounded-full bg-stone-800 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-rose-500 transition-colors text-sm"
+          />
+        </motion.div>
+      </section>
+
+      <section className="py-12 px-4 bg-stone-50">
+        <div className="max-w-6xl mx-auto">
+          {filteredArticles.length === 0 ? (
+            <div className="text-center py-24 text-stone-400">No articles found.</div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredArticles.map((article, index) => (
+                <motion.div
+                  key={article.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                >
+                  <ArticleCard article={article} />
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
-        
-        {filteredArticles.length === 0 ? (
-          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-            No articles found.
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredArticles.map((article, index) => (
-              <motion.div
-                key={article.slug}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <ArticleCard article={article} />
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </motion.div>
+      </section>
     </>
   );
 }
